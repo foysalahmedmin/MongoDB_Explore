@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { HiUsers } from "react-icons/hi";
+import Swal from 'sweetalert2';
 
 const AddUser = () => {
     const addUserHandler = (event) => {
@@ -12,8 +14,6 @@ const AddUser = () => {
         const password = form.password.value;
         const user = { name, email, password, gender, status }
 
-        console.log(user)
-
         fetch('http://localhost:5000/users',
             {
                 method: "POST",
@@ -25,6 +25,13 @@ const AddUser = () => {
         )
             .then(res => res.json())
             .then(data => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 form.reset()
                 console.log(data)
 
@@ -34,7 +41,7 @@ const AddUser = () => {
         <section className='py-10'>
             <div className='container'>
                 <div className='my-10'>
-                    <Link to= "/" ><button className='px-10 py-3 bg-primary text-white font-bold'>All Users</button></Link>
+                    <Link to= "/" ><button className='px-10 py-3 bg-primary text-white font-bold flex items-center gap-3'><HiUsers /> All Users</button></Link>
                 </div>
                 <div className='shadow-xl max-w-3xl mx-auto '>
                     <div className='text-center my-5'>
@@ -52,7 +59,7 @@ const AddUser = () => {
                         <input className='block w-full border mb-3 mt-2 p-1' type="password" name="password" id="password" />
                         <div className='mb-3'>
                             <span className='text-light_gray mr-5' htmlFor="">Gender</span>
-                            <label className='mr-5' htmlFor="active"><input type="radio" name="gender" id="male" value="male" /> Male</label>
+                            <label className='mr-5' htmlFor="male"><input type="radio" name="gender" id="male" value="male" /> Male</label>
                             <label className='mr-5' htmlFor="female"><input type="radio" name="gender" id="female" value="female" /> Female</label>
                             <label htmlFor="common"><input type="radio" name="gender" id="common" value="common" />  Common</label>
                         </div>
